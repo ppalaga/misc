@@ -55,6 +55,8 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
     }
 
     public void testPerf() {
+        //First dry run
+        run(10, 1);
         run(500, 3);
         run(1000, 3);
         run(1500, 3);
@@ -70,7 +72,7 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
 
 
     public void run(int userCount, int iterationCount) {
-        System.out.println("users\t"+ userCount + "x"+ iterationCount);
+        //System.out.println("users\t"+ userCount + "x"+ iterationCount);
         Map<Integer, Map<String, Number>> metrics = new HashMap<Integer, Map<String,Number>>(iterationCount + iterationCount/2);
         for (int i = 0; i < iterationCount; i++) {
             Map<String, Number> resultSet = new TreeMap<String, Number>();
@@ -158,10 +160,11 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
 
         for (Entry<String, Number> avg : avgs.entrySet()) {
             if ("tokenCount".equals(avg.getKey())) {
-                System.out.println(avg.getKey() + "\t"+ avg.getValue().intValue());
+                //System.out.println(avg.getKey() + "\t"+ avg.getValue().intValue());
             }
             else {
-                System.out.println(avg.getKey() + "\t"+ NINE_FRACTION_DIGITS.format(avg.getValue().doubleValue() / iterationCount));
+                //System.out.println(avg.getKey() + "\t"+ NINE_FRACTION_DIGITS.format(avg.getValue().doubleValue() / iterationCount));
+                System.out.println(NINE_FRACTION_DIGITS.format(avg.getValue().doubleValue() / iterationCount));
             }
         }
     }
