@@ -27,11 +27,11 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
 
     private static final String PASSWORD = "********";
     private static final int MAX_CLIENTS_PER_USER = 5;
-    public static final NumberFormat THREE_FRACTION_DIGITS = NumberFormat.getNumberInstance(Locale.ENGLISH);
+    public static final NumberFormat NINE_FRACTION_DIGITS = NumberFormat.getNumberInstance(Locale.ENGLISH);
 
     static {
-        THREE_FRACTION_DIGITS.setMaximumFractionDigits(3);
-        THREE_FRACTION_DIGITS.setMinimumFractionDigits(3);
+        NINE_FRACTION_DIGITS.setMaximumFractionDigits(9);
+        NINE_FRACTION_DIGITS.setMinimumFractionDigits(9);
     }
 
 
@@ -60,34 +60,34 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
         run(1500, 3);
     }
 
-    public static double seconds(long milliseconds) {
-        return milliseconds / 1000.0d;
+    public static double seconds(long nanoseconds) {
+        return nanoseconds / 1000000000.0d;
     }
 
     public static long stop(long startTime) {
-        return System.currentTimeMillis() - startTime;
+        return System.nanoTime() - startTime;
     }
 
 
     public void run(int userCount, int iterationCount) {
-        System.out.println(""+ userCount + " users x "+ iterationCount);
+        System.out.println(""+ userCount + " users x "+ iterationCount +"\tTime in Seconds");
         Map<Integer, Map<String, Number>> metrics = new HashMap<Integer, Map<String,Number>>(iterationCount + iterationCount/2);
         for (int i = 0; i < iterationCount; i++) {
             Map<String, Number> resultSet = new TreeMap<String, Number>();
             metrics.put(i, resultSet);
 
             /* create */
-            long startCreate = System.currentTimeMillis();
+            long startCreate = System.nanoTime();
             Set<String> tokens = createTokens(userCount);
             resultSet.put("createAvg", new Double(seconds(stop(startCreate)) / tokens.size()));
             resultSet.put("tokenCount", tokens.size());
 
             /* retrieve */
-            long startRetrieveAll = System.currentTimeMillis();
+            long startRetrieveAll = System.nanoTime();
             long retrieveBest = Long.MAX_VALUE;
             long retrieveWorst = 0;
             for (String token : tokens) {
-                long startRetrieve = System.currentTimeMillis();
+                long startRetrieve = System.nanoTime();
                 service.getToken(token);
                 long retrievalTime = stop(startRetrieve);
                 if (retrieveBest > retrievalTime) {
@@ -154,7 +154,12 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
         }
 
         for (Entry<String, Number> avg : avgs.entrySet()) {
-            System.out.println(avg.getKey() + "\t"+ THREE_FRACTION_DIGITS.format(avg.getValue().doubleValue() / iterationCount));
+            if ("tokenCount".equals(avg.getKey())) {
+                System.out.println(avg.getKey() + "\t"+ avg.getValue().intValue());
+            }
+            else {
+                System.out.println(avg.getKey() + "\t"+ NINE_FRACTION_DIGITS.format(avg.getValue().doubleValue() / iterationCount));
+            }
         }
     }
 

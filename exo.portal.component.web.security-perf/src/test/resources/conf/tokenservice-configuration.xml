@@ -81,7 +81,7 @@
         <values-param>
           <name>entities</name>
           <value>org.exoplatform.web.security.security.TokenContainer</value>
-          <value>org.exoplatform.web.security.security.UserTokenCollection</value>
+          <!-- <value>org.exoplatform.web.security.security.UserTokenCollection</value> -->
           <value>org.exoplatform.web.security.security.TokenEntry</value>
         </values-param>
       </init-params>
@@ -106,7 +106,7 @@
         <values-param>
           <name>entities</name>
           <value>org.exoplatform.web.security.security.TokenContainer</value>
-          <value>org.exoplatform.web.security.security.UserTokenCollection</value>
+          <!-- <value>org.exoplatform.web.security.security.UserTokenCollection</value> -->
           <value>org.exoplatform.web.security.security.TokenEntry</value>
         </values-param>
       </init-params>
