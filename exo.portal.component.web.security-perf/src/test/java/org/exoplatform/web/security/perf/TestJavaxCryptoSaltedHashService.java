@@ -56,7 +56,7 @@ public class TestJavaxCryptoSaltedHashService {
         NINE_FRACTION_DIGITS.setMinimumFractionDigits(9);
     }
 
-    @Test
+    //@Test
     public void perf() throws SaltedHashException {
         System.out.println("iterationCount\tget\tverify");
         /* 10 is twice here because the first invocation takes longer */

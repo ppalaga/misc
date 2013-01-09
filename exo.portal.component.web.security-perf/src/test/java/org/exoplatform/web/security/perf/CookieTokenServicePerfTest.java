@@ -55,13 +55,7 @@ public class CookieTokenServicePerfTest extends AbstractKernelTest {
         super.beforeRunBare();
     }
 
-    @Test
-    public void dummy() {
-        assertTrue(true);
-    }
-
-    @Test
-    public void perf() {
+    public void test() {
         //First dry run
         run(10, 1);
         run(500, 3);
